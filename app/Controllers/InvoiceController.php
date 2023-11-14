@@ -37,7 +37,7 @@ class InvoiceController extends BaseController
 
         //encrypting process
         //$encrypt = new EncryptController;
-        //$qrtext = $encrypt->EncryptedData($qrtext);
+        //$qrtext = $encrypt->EncryptData($qrtext);
         $encrypter = \Config\Services::encrypter();
         $enkrip = base64_encode($encrypter->encrypt($qrtext));
         $data['qrtext'] = $enkrip;
@@ -49,19 +49,19 @@ class InvoiceController extends BaseController
         $data['qruri'] = $qrData;
 
         //get basse64Encode image
-        $ttd_agus = base_url('/assets/img/ttd_agus.png');
-        $ttd_BuDian = base_url('/assets/img/ttd_dian.png');
+        $ttd_agus = site_url('/assets/img/ttd_agus.png');
+        $ttd_BuDian = site_url('/assets/img/ttd_dian.png');
         $data['ttdAgus'] = $this->imageBase64Encode($ttd_agus);
         $data['ttdBuDian'] = $this->imageBase64Encode($ttd_BuDian);
 
-        //return view('transaction/invpdf_local', $data);
+        return view('transaction/invpdf_local', $data);
 
-        $filename = $header[0]->trans . $header[0]->inv_no;
+        // $filename = $header[0]->trans . $header[0]->inv_no;
 
-        $pdf = new Dompdf();
-        $pdf->loadHtml(view('invoicing/invpdf_local', $data));
-        $pdf->setPaper('A4', 'Potrait');
-        $pdf->render();
-        $pdf->stream($filename, array("Attachment" => 0));
+        // $pdf = new Dompdf();
+        // $pdf->loadHtml(view('invoicing/invpdf_local', $data));
+        // $pdf->setPaper('A4', 'Potrait');
+        // $pdf->render();
+        // $pdf->stream($filename, array("Attachment" => 0));
     }
 }

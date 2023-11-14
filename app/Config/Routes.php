@@ -33,6 +33,7 @@ $routes->get('/', 'Home::index');
 $routes->get('/enkrip', 'Home::enkrip');
 $routes->get('/invoice-list/', 'InvoiceController::index');
 $routes->get('/invoice-print/(:alpha)/(:num)', 'InvoiceController::invoice_print_local/$1/$2');
+$routes->get('procurement/requisition/kanban', 'ProcurementController::kanban_requisition');
 
 $routes->get('/sales-report', 'SalesController::sales_report');
 
