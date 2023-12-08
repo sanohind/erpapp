@@ -90,8 +90,8 @@ use PhpParser\Node\Expr\AssignOp\Concat;
                     <div class="small-box bg-success">
                         <div class="inner">
                             <h4 class="text-bold">Status : READY TO PRINT</h4>
-                            <h4>Amount : Rp. <?= number_format($billable[2]->total_amount, 2, ',', '.') ?></h4>
-                            <h5>Total Data : <?= number_format($billable[2]->total_row) ?> Row</h5>
+                            <h4>Amount : Rp. <?php if(isset($billable[2]->total_amount)) echo number_format($billable[2]->total_amount, 2, ',', '.')   ?></h4>
+                            <h5>Total Data : <?php if(isset($billable[2]->total_row)) echo  number_format($billable[2]->total_row) ?> &nbsp;Row</h5>
                         </div>
                         <div class="icon">
                             <i class="fas fa-print"></i>
