@@ -159,7 +159,7 @@ use PhpParser\Node\Expr\AssignOp\Concat;
 <!-- component -->
 <script>
     var minutes, seconds, count, counter, timer;
-    count = 300; //seconds
+    count = 3000; //seconds
     counter = setInterval(timer, 1000);
 
     function checklength(i) {

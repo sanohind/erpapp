@@ -17,7 +17,8 @@ class InvoiceController extends BaseController
 
     public function index($trans = false, $invoice = false)
     {
-        $getInv = file_get_contents($this->url_api."invoice/?type=$trans&invoice=$invoice");
+        $bpid = 'CLTMMIN';
+        $getInv = file_get_contents($this->url_api."invoice/?type=$trans&invoice=$invoice&bpid=$bpid");
         $invData = json_decode($getInv);
         $data['invoice'] = $invData->data;
         return view('invoicing/inv-form', $data);
@@ -50,18 +51,18 @@ class InvoiceController extends BaseController
 
         //get basse64Encode image
         $ttd_agus = site_url('/assets/img/ttd_agus.png');
-        $ttd_BuDian = site_url('/assets/img/ttd_dian.png');
+        $ttd_BuDian = site_url('/assets/img/ttd_dian2.png');
         $data['ttdAgus'] = $this->imageBase64Encode($ttd_agus);
         $data['ttdBuDian'] = $this->imageBase64Encode($ttd_BuDian);
 
-        return view('transaction/invpdf_local', $data);
+        //return view('invoicing/invpdf_local', $data);
 
-        // $filename = $header[0]->trans . $header[0]->inv_no;
+        $filename = $header[0]->trans . $header[0]->inv_no;
 
-        // $pdf = new Dompdf();
-        // $pdf->loadHtml(view('invoicing/invpdf_local', $data));
-        // $pdf->setPaper('A4', 'Potrait');
-        // $pdf->render();
-        // $pdf->stream($filename, array("Attachment" => 0));
+        $pdf = new Dompdf();
+        $pdf->loadHtml(view('invoicing/invpdf_local', $data));
+        $pdf->setPaper('A4', 'Potrait');
+        $pdf->render();
+        $pdf->stream($filename, array("Attachment" => 0));
     }
 }

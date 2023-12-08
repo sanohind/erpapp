@@ -36,7 +36,7 @@
   <!-- Main content -->
   <section class="content">
 
-    <!-- Default box -->
+    <!-- Default box 
     <div class="card" id="nonPrrint">
       <div class="card-header">
         <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseFilter" title="Collapse">
@@ -58,19 +58,19 @@
                     <i class="far fa-file"></i>
                   </span>
                 </div>
-                <!-- <input type="date" class="form-control float-right" id="rcDateFrom"> -->
                 <select class="form-control">
                   <option value="SIE">SIE</option>
+                  <option value="SIL">SIL</option>
+                  <option value="SCN">SCN</option>
+                  <option value="SIC">SIC</option>
                 </select>
               </div>
-              <!-- /.input group -->
             </div>
           </div>
           <div class="col-md-4">
 
             <div class="form-group">
               <label> Invoice No : </label>
-
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -79,15 +79,13 @@
                 </div>
                 <input type="text" class="form-control float-right" id="po_no">
               </div>
-              <!-- /.input group -->
             </div>
           </div>
         </div>
         <button class="btn btn-primary" id="btnDisplay"><i class="fas fa-search"> </i> Display</button>
       </div>
-      <!-- /.card-body -->
     </div>
-    <!-- /.card -->
+     /.card -->
 
     <div class="card card-primary">
       <div class="card-body">
@@ -96,8 +94,8 @@
             <thead>
               <tr>
                 <th>No. Invoice</th>
+                <th>No. Faktur</th>
                 <th>Status</th>
-                <th>Invoice Batch No</th>
                 <th>Date</th>
                 <th>Customer Name</th>
                 <th>Amount</th>
@@ -120,8 +118,8 @@
                 ?>
                   <tr>
                     <td><?= $row->trans.$row->inv_no ?></td>
+                    <td><?= $row->no_faktur ?></td>
                     <td><?= $row->inv_status ?></td>
-                    <td><?= $row->inv_batchno ?></td>
                     <td><?= date('Y-m-d', strtotime($row->inv_date,)) ?></td>
                     <td><?= $row->bp_name ?></td>
                     <td class="text-right"><?= number_format($row->inv_amount1, 2) ?></td>
@@ -167,7 +165,7 @@
 <script>
   $('#tbInvoice').DataTable({
     "order": [
-      [1, "asc"]
+      [3, "asc"]
     ]
   });
 </script>

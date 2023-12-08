@@ -5,44 +5,30 @@ namespace App\Controllers;
 class Home extends BaseController
 {
     private $db;
+    private $url_api;
 
     function __construct()
     {
-        $this->db = \Config\Database::connect();
+       // $this->db = \Config\Database::connect();
+        $this->url_api = getenv('api.url');
     }
 
     public function index()
     {
-        return view('kanban.php');
+        $getdata =  file_get_contents($this->url_api."sales-dashboard/");
+        $dashboard = json_decode($getdata);
+        // $data['billable'] = $dashboard->billable;
+        // $data['sales']  = $dashboard->sales_data;
+        // $data['kanban_title'] = 'Sales & Marketing Dashboard';
+        // $data['columnA'] = 'A';
+        // $data['columnB'] = 'B';
+        // $data['columnC'] = 'C';
+        // return view('dashboard', $data);
+        return $dashboard;
     }
 
     public function inventory()
     {
         
-    }
-
-    public function enkrip()
-    {
-        $text = 'VISION|00176.I.23|1195780140.00|1327315955.00|146004755.05|0100032361617140';
-        $encrypter = \Config\Services::encrypter();
-        $enkrip = $encrypter->encrypt($text);
-
-        echo "Encrypted String: ". $enkrip;
-
-        $b64 = base64_encode($enkrip);
-
-		echo "<br/><br/>";
-
-        echo "BASE64 String: ". $b64;
-
-        echo "<br/><br/>";
-
-        echo "BASE64 String: ". base64_decode($b64);
-
-        echo "<br/><br/>";
-
-        //$dt = "26GHYljmyALwe3HnRCPkFUl4pR5qGDHBvSz8rrKiJTKF74Vno52FknIqAOtVT3kEpT/Stf5dwnIUa+E2NbAShSuHFN/OwJPQT9lwzaGaDC4=";
-
-        //echo "Decrypted String: ". $encrypter->decrypt(base64_decode($dt));
     }
 }

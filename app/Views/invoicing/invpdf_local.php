@@ -242,7 +242,6 @@
                     <tr>
                         <td width="50%">
                             <img src="<?= $qruri ?>" alt="QRCODE" width="115"><br/>
-                            <span><?= $dekrip ?></span>
                         </td>
                         <td width="50%">
                             <table width="100%" style="border-collapse: collapse;" border="0">
@@ -281,7 +280,7 @@
                         <td class="text-center">
                             <p class="lead" style="margin-left: 5px;">Bekasi ,<strong> <?= date_format(date_create($invHeader[0]->inv_date2), 'd/m/Y') ?></strong></p>
                             <p class="lead" style="margin-left: 5px;">APPROVED BY :</p>
-                            <!-- <img src="#" height="75" width="75" alt="Manager Approver"> -->
+                            <img src="<?= $ttdBuDian ?>" height="75" width="75" alt="Manager Approver">
                             <p class="lead" style="margin-left: 5px;">Dian Rakhma Sari</p>
                         </td>
                     </tr>
