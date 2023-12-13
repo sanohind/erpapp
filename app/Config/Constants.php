@@ -92,3 +92,8 @@ define('EVENT_PRIORITY_NORMAL', 100);
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
  */
 define('EVENT_PRIORITY_HIGH', 10);
+
+//customs constants
+define('APP_NAME', 'ERP Apps.');
+define('APP_COMPANY', 'PT. Sanoh Indonesia');
+define('APP_VERSION','1.0.0');

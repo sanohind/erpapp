@@ -41,7 +41,7 @@ use PhpParser\Node\Expr\AssignOp\Concat;
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Kanban</li>
+                            <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
                     </div>
                 </div>
@@ -64,7 +64,7 @@ use PhpParser\Node\Expr\AssignOp\Concat;
                         <div class="icon">
                             <i class="fas fa-times-circle"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
+                        <a href="<?= site_url('/billable/On Hold'); ?>" class="small-box-footer">
                             Details <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -80,7 +80,7 @@ use PhpParser\Node\Expr\AssignOp\Concat;
                         <div class="icon">
                             <i class="far fa-check-circle"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
+                        <a href="<?= site_url('/billable/Confirmed'); ?>" class="small-box-footer">
                             Details <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -90,20 +90,20 @@ use PhpParser\Node\Expr\AssignOp\Concat;
                     <div class="small-box bg-success">
                         <div class="inner">
                             <h4 class="text-bold">Status : READY TO PRINT</h4>
-                            <h4>Amount : Rp. <?php if(isset($billable[2]->total_amount)) echo number_format($billable[2]->total_amount, 2, ',', '.')   ?></h4>
-                            <h5>Total Data : <?php if(isset($billable[2]->total_row)) echo  number_format($billable[2]->total_row) ?> &nbsp;Row</h5>
+                            <h4>Amount : Rp. <?php if (isset($billable[2]->total_amount)) echo number_format($billable[2]->total_amount, 2, ',', '.')   ?></h4>
+                            <h5>Total Data : <?php if (isset($billable[2]->total_row)) echo  number_format($billable[2]->total_row) ?> &nbsp;Row</h5>
                         </div>
                         <div class="icon">
                             <i class="fas fa-print"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
+                        <a href="<?= site_url('/billable/Ready to print'); ?>" class="small-box-footer">
                             Details <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
                 </div>
 
 
-                <div class="col-md-12 col-6">
+                <div class="col-md-8 col-4">
                     <div class="card card-outline card-primary">
                         <div class="card-header">
                             <h5 class="card-title">Total Sales by Period <small><i>Last 6 Month</i></small></h5>
@@ -121,7 +121,57 @@ use PhpParser\Node\Expr\AssignOp\Concat;
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <div class="col-md-4 col-2">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h3 class="card-title">Sales Aging Summary</h3>
+                            <div class="card-tools">
+                                <!-- <a href="#" class="btn btn-tool btn-sm">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-tool btn-sm">
+                                    <i class="fas fa-bars"></i>
+                                </a> -->
+                            </div>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-striped table-valign-middle text-large">
+                                <thead>
+                                    <tr>
+                                        <th>Aging</th>
+                                        <th>Amount</th>
+                                        <th>More</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($aging as $row) :
+                                    ?>
+                                        <tr>
+                                            <td>
+                                                <?php
+                                                if ($row->age_group == 0) {
+                                                    echo "Current";
+                                                } else {
+                                                    echo $row->age_group . " days";
+                                                }
+                                                ?>
+                                            </td>
+                                            <td class="text-right">Rp. <?= number_format($row->amount,0, ',', '.') ?></td>
+                                            <td>
+                                                <a href="#" class="text-muted">
+                                                    <i class="fas fa-search"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    endforeach;
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
         </section>
         <!-- /.content -->
     </div>

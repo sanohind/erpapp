@@ -65,4 +65,19 @@ class InvoiceController extends BaseController
         $pdf->render();
         $pdf->stream($filename, array("Attachment" => 0));
     }
+
+    public function billable($status =  false)
+    {
+        if($status ==  false){
+            $title = "Detail data billable line";
+        }else{
+            $title = "Detail data billable line with ".$status." status";
+        }
+        $sts = urlencode($status);
+        $getBillable = file_get_contents($this->url_api."billable-data/?status=$sts");
+        $billData = json_decode($getBillable);
+        $data['billable'] = $billData;
+        $data['title'] = $title;
+        return view('invoicing/billable', $data);
+    }
 }

@@ -62,9 +62,9 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?= site_url('invoice-print');?>" class="nav-link">
+              <a href="#" class="nav-link">
                 <i class="far fa-circle nav-icon text-primary"></i>
-                <p>Print Invoice Export</p>
+                <p> -- / --</p>
               </a>
             </li>
             <li class="nav-item">
@@ -85,15 +85,15 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="" class="nav-link">
+              <a href="<?= site_url('/billable'); ?>" class="nav-link">
                 <i class="far fa-circle nav-icon text-primary"></i>
-                <p>Dashboard</p>
+                <p>Billable Line</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="<?= site_url('/invoice-list'); ?>" class="nav-link">
                 <i class="far fa-circle nav-icon text-primary"></i>
-                <p> -- / --</p>
+                <p>Print Invoice</p>
               </a>
             </li>
           </ul>
@@ -116,7 +116,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= site_url('shipment-report');?>" class="nav-link">
+              <a href="<?= site_url('shipment-report'); ?>" class="nav-link">
                 <i class="far fa-circle nav-icon text-primary"></i>
                 <p>Sales Report</p>
               </a>

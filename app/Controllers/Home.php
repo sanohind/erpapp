@@ -19,6 +19,7 @@ class Home extends BaseController
         $dashboard = json_decode($getdata);
         $data['billable'] = $dashboard->billable;
         $data['sales']  = $dashboard->sales_data;
+        $data['aging']  = $dashboard->aging_data;
         $data['kanban_title'] = 'Sales & Marketing Dashboard';
         $data['columnA'] = 'A';
         $data['columnB'] = 'B';
