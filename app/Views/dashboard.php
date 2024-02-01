@@ -1,6 +1,4 @@
 <?php
-
-use PhpParser\Node\Expr\AssignOp\Concat;
 ?>
 <?= $this->extend('layout/layout') ?>
 
@@ -90,7 +88,7 @@ use PhpParser\Node\Expr\AssignOp\Concat;
                     <div class="small-box bg-success">
                         <div class="inner">
                             <h4 class="text-bold">Status : READY TO PRINT</h4>
-                            <h4>Amount : Rp. <?php if (isset($billable[2]->total_amount)) echo number_format($billable[2]->total_amount, 2, ',', '.')   ?></h4>
+                            <h4>Amount : Rp. <?php if (isset($billable[2]->total_amount)) echo number_format($billable[2]->total_amount, 0, ',', '.')   ?></h4>
                             <h5>Total Data : <?php if (isset($billable[2]->total_row)) echo  number_format($billable[2]->total_row) ?> &nbsp;Row</h5>
                         </div>
                         <div class="icon">
@@ -107,6 +105,9 @@ use PhpParser\Node\Expr\AssignOp\Concat;
                     <div class="card card-outline card-primary">
                         <div class="card-header">
                             <h5 class="card-title">Total Sales by Period <small><i>Last 6 Month</i></small></h5>
+                            <div class="card-tools">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="chart">
@@ -123,7 +124,7 @@ use PhpParser\Node\Expr\AssignOp\Concat;
                 </div>
 
                 <div class="col-md-4 col-2">
-                    <div class="card">
+                    <div class="card card-secondary">
                         <div class="card-header border-0">
                             <h3 class="card-title">Sales Aging Summary</h3>
                             <div class="card-tools">
@@ -140,8 +141,8 @@ use PhpParser\Node\Expr\AssignOp\Concat;
                                 <thead>
                                     <tr>
                                         <th>Aging</th>
-                                        <th>Amount</th>
-                                        <th>More</th>
+                                        <th class="text-center">Amount</th>
+                                        <!-- <th>More</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -157,18 +158,23 @@ use PhpParser\Node\Expr\AssignOp\Concat;
                                                 }
                                                 ?>
                                             </td>
-                                            <td class="text-right">Rp. <?= number_format($row->amount,0, ',', '.') ?></td>
-                                            <td>
+                                            <td class="text-right">Rp. <?= number_format($row->amount, 0, ',', '.') ?></td>
+                                            <!-- <td>
                                                 <a href="#" class="text-muted">
-                                                    <i class="fas fa-search"></i>
+                                                    <i class="fas fa-sign-in-alt"></i>
                                                 </a>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                     <?php
                                     endforeach;
                                     ?>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="<?= site_url('/sales-aging/') ?>">
+                                Details <i class="fas fa-arrow-circle-right"></i>
+                            </a>
                         </div>
                     </div>
                 </div>

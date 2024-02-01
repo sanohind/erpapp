@@ -16,6 +16,7 @@ class QRController extends BaseController
 {
     public function createQr($data,$name)
 	{
+		//$encode = base64_encode($data);
 		$writer = new PngWriter();
 
 		// Create QR code

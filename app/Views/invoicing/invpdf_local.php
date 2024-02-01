@@ -187,8 +187,10 @@
 
 <body>
     <?php
-    //$data = json_decode($invDetail);
-    foreach (array_chunk($invDetail, 24) as $dataInv) :
+    $data = count(array_chunk($invDetail, 3));
+    //dd($data);
+    foreach (array_chunk($invDetail, 3) as $dataInv) :
+        echo $data;
     ?>
         <header>
             <section class="header">
@@ -202,7 +204,7 @@
                         <td colspan="2">
                             <br />
                             <p>
-                                P.O Customer :
+                                P.O Customer : Terlampir
                                 <br />
                                 Surat Jalan No : SJ. Terlampir
                         </td>
@@ -241,7 +243,8 @@
                 <table width="100%" style="border-collapse: collapse;" border="0">
                     <tr>
                         <td width="50%">
-                            <img src="<?= $qruri ?>" alt="QRCODE" width="115"><br/>
+                            <img src="<?= $qruri ?>" alt="QRCODE" width="115"><br />
+
                         </td>
                         <td width="50%">
                             <table width="100%" style="border-collapse: collapse;" border="0">
@@ -274,13 +277,23 @@
                         <td width="50%" class="text-center">
                             <p class="lead" style="margin-left: 5px;">Tanggal Penyerahan :<strong> <?= date_format(date_create($invHeader[0]->inv_date2), 'd/m/Y') ?></strong></p>
                             <p class="lead" style="margin-left: 5px;">PREPARED BY :</p>
-                            <img src="<?= $ttdAgus ?>" height="75" width="75">
+                            <!-- <img src="#" height="75" width="75"> -->
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
                             <p class="lead" style="margin-left: 5px;">Agus Wahyono</p>
                         </td>
                         <td class="text-center">
                             <p class="lead" style="margin-left: 5px;">Bekasi ,<strong> <?= date_format(date_create($invHeader[0]->inv_date2), 'd/m/Y') ?></strong></p>
                             <p class="lead" style="margin-left: 5px;">APPROVED BY :</p>
-                            <img src="<?= $ttdBuDian ?>" height="75" width="75" alt="Manager Approver">
+                            <!-- <img src="#" height="75" width="75" alt="Manager Approver"> -->
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
                             <p class="lead" style="margin-left: 5px;">Dian Rakhma Sari</p>
                         </td>
                     </tr>
@@ -314,7 +327,8 @@
                         $i++;
                     };
                     ?>
-                    <br/>
+                    <br />
+                    
                 </tbody>
             </table>
         </main>

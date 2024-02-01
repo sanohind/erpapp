@@ -19,7 +19,7 @@
   <!-- Site wrapper -->
   <div class="wrapper">
     <div class="preloader flex-column justify-content-center align-items-center">
-      <img class="animation__wobble" src="<?= base_url('assets/img/sanoh1.jpg') ?>" alt="Sanoh Logo" height="275" width="325">
+      <img class="animation__wobble" src="<?= base_url('assets/img/snh.png') ?>" alt="Sanoh Logo" height="275" width="325">
       <br />
       <div class="overlay text-center" id="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"> </i>
         <div class="text-bold pt-2"> Mohon tunggu, selagi kami persiapkan datanya... Terima kasih..</div>
@@ -85,5 +85,4 @@
   <!-- AdminLTE for demo purposes -->
   <script src="<?= base_url('assets/adminlte//js/demo.js') ?>"></script>
 </body>
-
 </html>

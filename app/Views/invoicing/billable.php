@@ -145,6 +145,9 @@
          }],
         orderCellsTop: true,
         fixedHeader: true,
+        paging: false,
+        scrollCollapse: true,
+        scrollY: '530px',
         initComplete: function () {
             var api = this.api();
  
