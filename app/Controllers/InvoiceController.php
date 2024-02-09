@@ -6,6 +6,8 @@ use Dompdf\Dompdf;
 
 use App\Controllers\BaseController;
 use App\Controllers\EncryptController;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class InvoiceController extends BaseController
 {
@@ -79,7 +81,7 @@ class InvoiceController extends BaseController
         // add pagination
         $canvas = $pdf->getCanvas(); // get the canvas
         // add the page number and total number of pages
-        $canvas->page_script(' $text = "$PAGE_NUM / $PAGE_COUNT";
+        $canvas->page_script(' $text = "Page : $PAGE_NUM";
                         $pdf->text(535, 35, $text, \'Helvetica\', 10, array(0,0,0));');
 
         $pdf->stream($filename, array("Attachment" => 0));
@@ -98,5 +100,55 @@ class InvoiceController extends BaseController
         $data['billable'] = $billData;
         $data['title'] = $title;
         return view('invoicing/billable', $data);
+    }
+
+    public function export()
+    {
+        //var_dump($this->request->getPost());
+        $reportType = $this->request->getPost(('reportType'));
+        //echo $reportType;
+        
+        $spreadSheet = new Spreadsheet();
+        $column = 2;
+
+        if( $reportType == 'summary'){
+            $getData = file_get_contents($this->url_api."aging-summary/");
+            $summary = json_decode($getData);
+            $data = $summary->aging_data;
+
+            $spreadSheet->setActiveSheetIndex(0)
+            ->setCellValue('A1', 'Customer Name')
+            ->setCellValue('B1', 'Current')
+            ->setCellValue('C1', '30 Days')
+            ->setCellValue('D1', '60 Days')
+            ->setCellValue('E1', '90 Days')
+            ->setCellValue('F1', '120 Days');
+
+            foreach($data as $row){
+                $spreadSheet->setActiveSheetIndex(0)
+                ->setCellValue('A' . $column, $row->customer)
+                ->setCellValue('B' . $column, $row->D0)
+                ->setCellValue('C' . $column, $row->D30)
+                ->setCellValue('D' . $column, $row->D60)
+                ->setCellValue('E' . $column, $row->D90)
+                ->setCellValue('F' . $column, $row->D120);
+
+                $column++;
+            }
+
+        }else{
+            $getData = file_get_contents($this->url_api."aging-detail/?customer=");
+        }
+
+        $writer = new Xlsx($spreadSheet);
+        $filename = date('YmdHis')."_Aging ".ucfirst($reportType)." Report";
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename=' . $filename . '.xlsx');
+        header('Cache-Control: max-age=0');
+
+        setlocale(LC_ALL, 'en_US');
+        ob_end_clean();
+        return $writer->save('php://output');
     }
 }

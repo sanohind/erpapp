@@ -139,6 +139,9 @@ use PhpParser\Node\Expr\AssignOp\Concat;
                             </div>
                         </div>
                         <div class="card-body table-responsive">
+                            <div>
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#modal-detail"> <i class="fas fa-print"></i> Export To Excel</button>
+                            </div>
                             <table class="table table-bordered table-striped" id="tbDetail">
                                 <thead class="bg-secondary">
                                     <tr>
@@ -177,42 +180,34 @@ use PhpParser\Node\Expr\AssignOp\Concat;
         <!-- /.content -->
 
         <div class="modal fade" id="modal-detail">
-            <div class="modal-dialog modal-xl">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="detailTitle">--</h4>
+                        <h4 class="modal-title" id="detailTitle">Export Data Option</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <!-- <div class="table-responsive"> -->
-                        <table class="table table-striped table-hover display " id="tableAgingDetail" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Customer</th>
-                                    <th>Doc. Type</th>
-                                    <th>Doc. No</th>
-                                    <th>Doc. Date</th>
-                                    <th>Due Date</th>
-                                    <th>Currency</th>
-                                    <th>Amount</th>
-                                    <th>Balance</th>
-                                    <th>Balance (HC)</th>
-                                    <th>Aging</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <div class="overlay" id="olTableDetail"><i class="fas fa-3x fa-sync-alt fa-spin"> </i>
-                                    <div class="text-bold pt-2"> Loading...</div>
-                                </div>
-                            </tbody>
-                        </table>
-                        <!-- </div> -->
-                    </div>
-                    <div class="modal-footer ">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-                    </div>
+                    <form class="form-horizontal" action="<?= base_url('invoice-export') ?>" method="POST" target="_blank">
+                        <div class="modal-body text-justify">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="reportType" id="exampleRadios1" value="summary">
+                                <label class="form-check-label" for="exampleRadios1">
+                                    Summary Data
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="reportType" id="exampleRadios2" value="detail">
+                                <label class="form-check-label" for="exampleRadios2">
+                                    Detail Data
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer ">
+                            <button type="submit" name="submit" class="btn btn-success">Export</button>
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
                 </div>
                 <!-- /.modal-content -->
             </div>
@@ -238,10 +233,10 @@ use PhpParser\Node\Expr\AssignOp\Concat;
 <!-- component -->
 <script type="text/javascript">
     $('#tbDetail').DataTable({
-        dom: 'Bfrtip',
-        buttons: [{
-            extend: 'excelHtml5'
-        }],
+        //dom: 'Bfrtip',
+        //buttons: [{
+        //    extend: 'excelHtml5'
+        //}],
         paging: false,
         scrollCollapse: true,
         scrollY: '275px'
@@ -252,7 +247,7 @@ use PhpParser\Node\Expr\AssignOp\Concat;
     });
 
     function showDetail(cust) {
-       //$("#modal-detail").modal("show");
+        //$("#modal-detail").modal("show");
         const dtTitle = document.getElementById("detailTitle");
         dtTitle.innerText = cust;
         $("#tableAgingDetail").DataTable().destroy();
@@ -270,7 +265,7 @@ use PhpParser\Node\Expr\AssignOp\Concat;
             .then((data) => {
                 console.log(data.data);
                 const result = data.data;
-                
+
             })
             .catch(function(error) {
                 console.log(`Error: ${error.message}`);

@@ -188,9 +188,7 @@
 <body>
     <?php
     $data = count(array_chunk($invDetail, 3));
-    //dd($data);
     foreach (array_chunk($invDetail, 24) as $dataInv) :
-        echo $data;
     ?>
         <header>
             <section class="header">

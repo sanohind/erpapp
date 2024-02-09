@@ -35,9 +35,9 @@ $routes->get('/invoice-list/', 'InvoiceController::index');
 $routes->get('/invoice-print/(:alpha)/(:num)', 'InvoiceController::invoice_print_local/$1/$2');
 $routes->get('/billable/','InvoiceController::billable');
 $routes->get('/billable/(:any)','InvoiceController::billable/$1');
+$routes->post('/invoice-export/','InvoiceController::export');
 $routes->get('/sales-aging/','SalesController::index');
 $routes->get('procurement/requisition/kanban', 'ProcurementController::kanban_requisition');
-
 $routes->get('/sales-report', 'SalesController::sales_report');
 
 /*
