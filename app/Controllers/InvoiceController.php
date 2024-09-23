@@ -45,7 +45,7 @@ class InvoiceController extends BaseController
             $no_faktur = $header[0]->no_faktur;
         }
 
-        $qrtext = "VISION|" . $inv  . "|" . number_format($header[0]->inv_amount1, 2, ".", "") . "|" . number_format($header[0]->inv_amount, 2, ".", "") . "|" . number_format($header[0]->inv_tax_value, 2, ".", "") . "|" . $no_faktur;
+        $qrtext = "VISION|" . $inv  . "|" . number_format($header[0]->inv_net_amount, 2, ".", "") . "|" . number_format($header[0]->inv_amount, 2, ".", "") . "|" . number_format($header[0]->inv_tax_value, 2, ".", "") . "|" . $no_faktur;
 
         //encrypting process
         //$encrypt = new EncryptController;

@@ -122,7 +122,7 @@
                       <td><?= $row->inv_status ?></td>
                       <td><?= date('Y-m-d', strtotime($row->inv_date,)) ?></td>
                       <td><?= $row->bp_name ?></td>
-                      <td class="text-right"><?= number_format($row->inv_amount1, 2) ?></td>
+                      <td class="text-right"><?= number_format($row->inv_net_amount, 2) ?></td>
                       <td class="text-right"><?= number_format($row->inv_tax_value, 2) ?></td>
                       <td class="text-right"><?= number_format($row->inv_amount, 2) ?></td>
                       <td><?= $row->inv_currency ?></td>
