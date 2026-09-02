@@ -39,16 +39,16 @@
             border: 1px solid #333333;
         }
 
-        .border-bottom {
+        /*.border-bottom {
             border-bottom: 1px solid black;
-        }
+        } */
 
         /* table td {
             border-left: 1px solid #000;
             border-right: 1px solid #000;
         } */
 
-        th {
+        /* th {
             font-size: 11px;
             text-align: center;
             padding: 4px 4px;
@@ -57,6 +57,10 @@
         td {
             font-size: 11px;
             padding: 4px 4px;
+        } */
+
+        .sign-mgr {
+            padding-left: 15px;
         }
 
         .text-right {
@@ -187,7 +191,8 @@
 
 <body>
     <?php
-    $data = count(array_chunk($invDetail, 3));
+    //$data = count(array_chunk($invDetail, 3));
+    //echo $data;
     foreach (array_chunk($invDetail, 24) as $dataInv) :
     ?>
         <header>
@@ -240,24 +245,15 @@
             <section class="cost">
                 <table width="100%" style="border-collapse: collapse;" border="0">
                     <tr>
-                        <?php if ($invHeader[0]->inv_bp == 'CLTMMIN') { ?>
-                            <td width="50%">
-                                <img src="<?= $qruri ?>" alt="QRCODE" width="115"><br />
-                            </td>
-                        <?php } else { ?>
-                            <td width="20%">
-                                <img src="<?= $qruri ?>" alt="QRCODE" width="115"><br />
-                            </td>
-                            <td width="30%">
-                                <p>
-                                    MUFG Bank, Ltd
-                                    Jakarta Branch,Trinity Tower 6F-9F
-                                    Jl. H.R. Rasuna Said Kav.C22 Blok IIB,Karet Kuningan,Jakarta 12940,Indonesia</p>
+                        <td width="30%">
+                            <p>
+                                MUFG Bank, Ltd
+                                Jakarta Branch,Trinity Tower 6F-9F
+                                Jl. H.R. Rasuna Said Kav.C22 Blok IIB,Karet Kuningan,Jakarta 12940,Indonesia</p>
 
-                                <p><b>Account No. 5100-402932</b></p>
-                            </td>
-                        <?php } ?>
-                        <td width="50%">
+                            <p><b>Account No. 5100-402932</b></p>
+                        </td>
+                        <td width="70%">
                             <table width="100%" style="border-collapse: collapse;" border="0">
                                 <tr>
                                     <td class="text-right">AMOUNT</td>
@@ -283,27 +279,18 @@
                 </table>
             </section>
             <section class="sign">
-                <table width="100%">
+                <table width="100%" class="table" border="0">
                     <tr>
                         <td width="50%" class="text-center">
-                            <p class="lead" style="margin-left: 5px;">Tanggal Penyerahan :<strong> <?= date_format(date_create($invHeader[0]->inv_date2), 'd/m/Y') ?></strong></p>
+                            <p class="lead" style="margin-left: 5px;">Invoice Date :<strong> <?= date_format(date_create($invHeader[0]->inv_date2), 'd F Y') ?></strong></p>
                             <p class="lead" style="margin-left: 5px;">PREPARED BY :</p>
-                            <!-- <img src="#" height="75" width="75"> -->
-                            <br />
-                            <br />
-                            <br />
-                            <br />
-                            <br />
+                            <img src="<?= $ttdAgus ?>" height="75" width="75">
                             <p class="lead" style="margin-left: 5px;">Agus Wahyono</p>
                         </td>
                         <td class="text-center">
-                            <p class="lead" style="margin-left: 5px;">Bekasi ,<strong> <?= date_format(date_create($invHeader[0]->inv_date2), 'd/m/Y') ?></strong></p>
+                            <p class="lead" style="margin-left: 5px;">Bekasi ,<strong> <?= date_format(date_create($invHeader[0]->inv_date2), 'd F Y') ?></strong></p>
                             <p class="lead" style="margin-left: 5px;">APPROVED BY :</p>
-                            <!-- <img src="#" height="75" width="75" alt="Manager Approver"> -->
-                            <br />
-                            <br />
-                            <br />
-                            <br />
+                            <p class="lead" style="margin-left: 55px;"><img class="sign-mgr" src="<?= $ttdMgr ?>" height="75" width="75" alt="Manager Approver"></p>
                             <p class="lead" style="margin-left: 5px;">Irfan Saleh E.</p>
                             <p class="lead" style="margin-left: 5px;">Accounting Manager</p>
                         </td>
@@ -327,23 +314,21 @@
                     $i = 0;
                     foreach ($dataInv as $row) {
                     ?>
-                        <tr style="border-bottom: 0.5px solid black;">
-                            <!-- <tr style="border-bottom: 0.5px solid black;"> -->
-                            <td class="text-right" style="border-left: 1px solid #000; border-right: 1px solid #000;"><?= number_format($row->qty, 2) ?></td>
-                            <td style="border-left: 1px solid #000; border-right: 1px solid #000;"><?= $row->part . "&nbsp;&nbsp;&nbsp;&nbsp; " . $row->name ?></td>
-                            <td class="text-right" style="border-left: 1px solid #000; border-right: 1px solid #000;"><?= number_format($row->price, 2)  ?></td>
-                            <td class="text-right" style="border-left: 1px solid #000; border-right: 1px solid #000;"><?= number_format($row->amount, 2)  ?></td>
+                        <tr>
+                            <td class="text-right" style="border-bottom: 0.5px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;"><?= number_format($row->qty, 0) ?></td>
+                            <td class="text-left" style="border-bottom: 0.5px solid #000;border-left: 1px solid #000; border-right: 1px solid #000;"><?= $row->part . "&nbsp;&nbsp;&nbsp;&nbsp; " . $row->name ?></td>
+                            <td class="text-right" style="border-bottom: 0.5px solid black;border-left: 1px solid #000; border-right: 1px solid #000;"><?= number_format($row->price, 2)  ?></td>
+                            <td class="text-right" style="border-bottom: 0.5px solid black;border-left: 1px solid #000; border-right: 1px solid #000;"><?= number_format($row->amount, 2)  ?></td>
                         </tr>
                     <?php
                         $i++;
                     };
                     ?>
-                    <br />
 
                 </tbody>
             </table>
         </main>
-        
+
         <div class="page-break"></div>
     <?php
     endforeach;

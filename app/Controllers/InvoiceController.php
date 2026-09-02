@@ -22,7 +22,7 @@ class InvoiceController extends BaseController
 
     public function index($trans = false, $invoice = false)
     {
-        $bpid = 'CLTMMIN';
+        $bpid = 2;
         $getInv = file_get_contents($this->url_api . "invoice/?type=$trans&invoice=$invoice&bpid=$bpid");
         $invData = json_decode($getInv);
         $data['invoice'] = $invData->data;
@@ -45,11 +45,15 @@ class InvoiceController extends BaseController
             $no_faktur = $header[0]->no_faktur;
         }
 
-        $qrtext = "VISION|" . $inv  . "|" . number_format($header[0]->inv_net_amount, 2, ".", "") . "|" . number_format($header[0]->inv_amount, 2, ".", "") . "|" . number_format($header[0]->inv_tax_value, 2, ".", "") . "|" . $no_faktur;
-
-        //encrypting process
-        //$encrypt = new EncryptController;
-        $enc = $this->encrypt->EncryptData($qrtext);
+        if ($header[0]->inv_bp == 'CLTMMIN') {
+            $qrtext = "VISION|" . $inv  . "|" . number_format($header[0]->inv_net_amount, 2, ".", "") . "|" . number_format($header[0]->inv_amount, 2, ".", "") . "|" . number_format($header[0]->inv_tax_value, 2, ".", "") . "|" . $no_faktur;
+            $enc = $this->encrypt->EncryptData($qrtext);
+        } else {
+            $tax_base = (11 / 12) * $header[0]->inv_net_amount;
+            $tax_amount = (12 / 100) * $tax_base;
+            $qrtext = "DELVI|" . date('d/m/Y', strtotime($header[0]->inv_date2)) . "|" . $trans . $invoice . "|" . floatval($header[0]->inv_net_amount) . "|" . floatval($tax_base) . "|" . floatval(round($tax_amount)) . "|" . 0 . "|" . floatval($header[0]->inv_amount);
+            $enc = $qrtext;
+        }
         //$encrypter = \Config\Services::encrypter();
         //$enkrip = base64_encode($encrypter->encrypt($qrtext));
         //$data['qrtext'] = $enkrip;
@@ -64,17 +68,21 @@ class InvoiceController extends BaseController
         $data['qruri'] = $qr->createQr($enc, $inv);
 
         //get basse64Encode image
-        $ttd_agus = site_url('/assets/img/ttd_agus.png');
-        $ttd_BuDian = site_url('/assets/img/ttd_dian2.png');
+        $ttd_agus = site_url('/assets/img/ttdAgus.png');
+        $ttdMgr = site_url('/assets/img/ttdPakIrfan.png');
         $data['ttdAgus'] = $this->imageBase64Encode($ttd_agus);
-        $data['ttdBuDian'] = $this->imageBase64Encode($ttd_BuDian);
+        $data['ttdMgr'] = $this->imageBase64Encode($ttdMgr);
 
         //return view('invoicing/invpdf_local', $data);
 
         $filename = $header[0]->trans . $header[0]->inv_no;
 
         $pdf = new Dompdf();
-        $pdf->loadHtml(view('invoicing/invpdf_local', $data));
+        if ($header[0]->inv_bp == 'CLAHMPT') {
+            $pdf->loadHtml(view('invoicing/invpdf_ahm', $data));
+        } else {
+            $pdf->loadHtml(view('invoicing/invpdf_local', $data));
+        }
         $pdf->setPaper('A4', 'Potrait');
         $pdf->render();
 
@@ -84,7 +92,7 @@ class InvoiceController extends BaseController
         $canvas->page_script(' $text = "Page : $PAGE_NUM";
                         $pdf->text(535, 35, $text, \'Helvetica\', 10, array(0,0,0));');
 
-        $pdf->stream($filename, array("Attachment" => 0));
+        return $pdf->stream($filename, array("Attachment" => 0));
     }
 
     public function billable($status =  false)
@@ -107,41 +115,40 @@ class InvoiceController extends BaseController
         //var_dump($this->request->getPost());
         $reportType = $this->request->getPost(('reportType'));
         //echo $reportType;
-        
+
         $spreadSheet = new Spreadsheet();
         $column = 2;
 
-        if( $reportType == 'summary'){
-            $getData = file_get_contents($this->url_api."aging-summary/");
+        if ($reportType == 'summary') {
+            $getData = file_get_contents($this->url_api . "aging-summary/");
             $summary = json_decode($getData);
             $data = $summary->aging_data;
 
             $spreadSheet->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'Customer Name')
-            ->setCellValue('B1', 'Current')
-            ->setCellValue('C1', '30 Days')
-            ->setCellValue('D1', '60 Days')
-            ->setCellValue('E1', '90 Days')
-            ->setCellValue('F1', '120 Days');
+                ->setCellValue('A1', 'Customer Name')
+                ->setCellValue('B1', 'Current')
+                ->setCellValue('C1', '30 Days')
+                ->setCellValue('D1', '60 Days')
+                ->setCellValue('E1', '90 Days')
+                ->setCellValue('F1', '120 Days');
 
-            foreach($data as $row){
+            foreach ($data as $row) {
                 $spreadSheet->setActiveSheetIndex(0)
-                ->setCellValue('A' . $column, $row->customer)
-                ->setCellValue('B' . $column, $row->D0)
-                ->setCellValue('C' . $column, $row->D30)
-                ->setCellValue('D' . $column, $row->D60)
-                ->setCellValue('E' . $column, $row->D90)
-                ->setCellValue('F' . $column, $row->D120);
+                    ->setCellValue('A' . $column, $row->customer)
+                    ->setCellValue('B' . $column, $row->D0)
+                    ->setCellValue('C' . $column, $row->D30)
+                    ->setCellValue('D' . $column, $row->D60)
+                    ->setCellValue('E' . $column, $row->D90)
+                    ->setCellValue('F' . $column, $row->D120);
 
                 $column++;
             }
-
-        }else{
-            $getData = file_get_contents($this->url_api."aging-detail/?customer=");
+        } else {
+            $getData = file_get_contents($this->url_api . "aging-detail/?customer=");
         }
 
         $writer = new Xlsx($spreadSheet);
-        $filename = date('YmdHis')."_Aging ".ucfirst($reportType)." Report";
+        $filename = date('YmdHis') . "_Aging " . ucfirst($reportType) . " Report";
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename=' . $filename . '.xlsx');
